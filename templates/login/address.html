@@ -1,0 +1,190 @@
+{% extends 'login/models.html' %}
+{% block b1 %}地址{% endblock b1 %}
+{% block b2 %}地址{% endblock b2%}
+{% block b3 %}
+<form method="get" action="/set_address">
+    {% csrf_token %}
+<div style="position: absolute;left: 28%;top: 20%" >
+    省:<select id="sheng" class="sel" name="sheng">
+        <option disabled="true">-----请选择省-----</option>
+        {% for i in sheng %}
+        <option class = 'op1' data-index = '{{ i.id }}'>{{ i.cityname }}</option>
+        {% endfor %}
+    </select>
+
+    <div style="display: none">
+            {% for i in shi %}
+                <div id="a" data-pid = '{{ i.pid }}'> {{ i.cityname }} <p style="display: none">{{ i.id }}</p> </div>
+            {% endfor %}
+    </div>
+
+    市:<select id="shi" class="sel" name="shi">
+        <option disabled="true">-----请选择市-----</option>
+    </select>
+
+
+
+    <div  style="display: none">
+        {% for i in xian %}
+            <option id="all_xian" style="display: none" class="xian" data-xian = "{{ i.pid }}">{{ i.cityname }}</option>
+         {% endfor %}
+    </div>
+
+
+
+    县/区:<select id="xian" class="sel" name="xian">
+        <option disabled="true">-----请选择县-----</option>
+    </select>
+
+
+
+
+<!--此串js代码耗时6小时-->
+    <script>
+        var sheng = document.querySelector('#sheng')
+        var op = document.querySelectorAll('.op1')
+        var sheng_id;
+        var shi = document.querySelectorAll('#a')
+        var str;
+        var sel_shi = document.querySelector('#shi')
+        var sum = 0
+        var xian_sum = 0
+        var child;
+        var all_xian = document.querySelectorAll('#all_xian')
+        var all_shi = document.querySelector('#shi')
+        var xian = document.querySelector('#xian')
+
+        sheng.onfocus = function () {
+            for (let i = 0; i < sum; i++) {
+                sel_shi.removeChild(sel_shi.children[0])
+            }
+            sum = 0
+            for (let i = 0; i < xian_sum; i++) {
+                xian.removeChild(xian.children[0])
+            }
+            xian_sum = 0
+        }
+        sheng.onblur = function () {
+            // var id = op.getAttribute('data-index')
+            for (var i = 0; i < op.length; i++) {
+                if (this.value == op[i].value) {
+                    sheng_id = op[i].getAttribute('data-index')
+                    break
+                }
+            }
+            for (let i = 0; i < shi.length; i++) {
+                str = shi[i].getAttribute('data-pid')
+                child = shi[i].children[0].innerText
+                if (str == sheng_id) {
+                    sum += 1
+                    // add_str = inner
+                    // add_str = '<option data-index1='+str+'>'+shi.value+'</option>'
+                    // sel_shi.append(add_str)
+                    var lili = document.createElement('option')
+                    lili.innerHTML = shi[i].innerHTML.replace(/[0-9]+/g,"")
+                    lili.setAttribute('data-id', child)
+                    lili.setAttribute('data-pid', str)
+                    sel_shi.insertBefore(lili, sel_shi.children[0])
+                }
+            }
+        }
+
+        
+        sel_shi.onfocus = function () {
+            for (let i = 0; i < xian_sum; i++) {
+                xian.removeChild(xian.children[0])
+            }
+         xian_sum = 0
+        }
+
+        sel_shi.onblur = function () {
+            for (let i = 0; i < shi.length; i++) {
+            if(sel_shi[i].innerText.trim() == all_shi.value.trim()){
+                all_shi.setAttribute('data-shi',sel_shi[i].getAttribute('data-id'))
+                break;
+            }
+        }
+            for (let i = 0; i < all_xian.length; i++) {
+                if (all_xian[i].getAttribute('data-xian') == all_shi.getAttribute('data-shi')){
+                    var lili = document.createElement('option')
+                    lili.innerHTML = all_xian[i].innerHTML
+                    xian.insertBefore(lili, xian.children[0])
+                    xian_sum++;
+                }
+            }
+        }
+
+    </script>
+
+
+    <br>
+    <p>请输入收件人姓名:</p><input type="text" class="name" name="name">
+    <br>
+    <p>请输入收件人电话号码:</p><input type="text" class="phone" name="phone">
+    <br>
+    <p>请输入街道以及门牌号:</p><input type="text" class="address" name="address" value="例：中心街道22号" style="color: #999999;width: 60%;height: 100px;line-height: 0;border-radius: 10%;border: 1px solid aquamarine">
+    <br>
+    <br>
+    <input class="btn_sure" type="button" value="确认">
+    <br>
+    <div class = 'make_sure' style="display: none">
+        <p style="color: mediumvioletred">请再次确认信息(如有修改请再次单机'确认'按钮):</p>
+        <div class = 'sure'   disabled="disabled" style="border: 1px mediumvioletred solid;text-align: center;border-radius: 10% ">
+        </div>
+        <input type="submit" value="就是这样" style="width: 100px;height: 30px;margin-left: 40%;margin-top: 5%;background-color: olive">
+    </div>
+</div>
+
+</form>
+
+<style>
+    .sel{
+        width: 160px;
+        height: 30px;
+    }
+</style>
+
+<script>
+    var address = document.querySelector('.address')
+    address.onfocus = function () {
+        if (this.value == "例：中心街道22号"){
+            this.value = ''
+            this.style.color = 'black'
+        }
+    }
+    address.onblur = function () {
+        if (this.value == ''){
+            this.value = "例：中心街道22号"
+            this.style.color = '#999'
+        }
+    }
+
+    var btn = document.querySelector('.btn_sure')
+    var make_sure = document.querySelector('.make_sure')
+    var sure = document.querySelector('.sure')
+
+    // 获取用户输入的所有信息
+    var get_sheng = document.querySelector('#sheng')
+    var get_xian = document.querySelector('#xian')
+    var get_shi = document.querySelector('#shi')
+    var get_name = document.querySelector('.name')
+    var get_phone = document.querySelector('.phone')
+    var get_address = document.querySelector('.address')
+
+
+    btn.onclick = function () {
+        // 判断是否已经输入了所有的列表框
+        if (get_sheng.value != '' && get_xian.value != '' && get_shi.value != '' && get_name.value != '' && get_phone.value != '' && get_address.value != ''){
+            sure.innerHTML = get_name.value+'<br>'+get_phone.value+'<br>'+get_sheng.value+'\t'+get_shi.value+'\t'+get_xian.value+'<br>'+get_address.value
+            make_sure.style.display='block'
+        }else{
+            alert('请输入完整的地址内容')
+        }
+
+    }
+</script>
+
+
+    {% block b5 %}
+    {% endblock b5 %}
+{% endblock b3%}

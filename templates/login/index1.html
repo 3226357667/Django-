@@ -1,0 +1,319 @@
+{% extends 'login/models.html' %}
+{% block b6 %}
+height:{{ sum }}px;
+{% endblock b6 %}
+{% block b7 %}
+    var date = new Date()
+    var hour = date.getHours()
+    if (hour < 12 ){
+        title.innerText = "上午好! "+name
+    }else if(hour < 16){
+        title.innerText = "下午好！"+name
+    }else{
+        title.innerText = "晚上好！"+name
+    }
+{% endblock b7 %}
+{% block b1 %}
+首页
+{% endblock b1 %}
+{% block b2 %}
+<span>上午好! </span>
+<span id="one" style="display: none">
+    您可以点击此处登录!
+</span>
+<script>
+    var title = document.querySelector('span')
+    var login = document.querySelector('#one')
+    if (name == '您好像还没有登录哦'){
+        title.onclick = function () {
+            location.href = '/index'
+        }
+        login.style = ""
+        login.onclick = function () {
+            location.href = '/index'
+        }
+    }
+    var date = new Date()
+    var hour = date.getHours()
+    if (hour < 12 ){
+        title.innerText = "上午好! "+name
+    }else if(hour < 16){
+        title.innerText = "下午好！"+name
+    }else{
+        title.innerText = "晚上好！"+name
+    }
+
+
+</script>
+{% endblock b2 %}
+
+{% block b3 %}
+<!--搜索功能-->
+<div class = 'find' style="position: absolute;left: 840px;top: 110px">
+     <form method="post" action="/find">
+         {% csrf_token %}
+         <input class = 'info' name="info" type="text" value="请输入搜索的内容" style="width: 200px;height: 30px;color: #999999;border: 0px;border-bottom:2px solid bisque;outline: 0px ">
+         <input class = 'submit' type="button" value="搜索" style="width: 50px;height: 30px;">
+     </form>
+</div>
+<script>
+    var info = document.querySelector('.info')
+    var submit = document.querySelector('.submit')
+    info.onfocus = function () {
+        if (this.value == "请输入搜索的内容") {
+            this.value = ''
+            this.style.color = 'black'
+        }
+    }
+    info.onblur = function () {
+        if (this.value == '') {
+            this.value = "请输入搜索的内容"
+            this.style.color = '#999'
+        }
+    }
+    submit.onmouseover = function () {
+        if (info.value != "请输入搜索的内容" && info.value != "") {
+            this.type = 'submit'
+        }
+    }
+</script>
+
+<!--# 优化搜索功能  用户按下s键光标定位到搜索框中-->
+<script>
+    document.addEventListener('keyup',function (e) {
+        if (e.key === 'm'){
+            info.focus()
+        }
+    })
+</script>
+
+
+<a href="#" style="color: black" >
+    <div class = 'big_btn' style="float: left;width: 100%;margin-left: 1.8%;margin-top: 5px">
+        <div class="btn">
+            <p>所有</p>
+        </div>
+
+        <div class="btn">
+            <p>修猫</p>
+        </div>
+
+        <div class="btn">
+            <p>修狗</p>
+        </div>
+
+        <div class="btn">
+            <p>修水獭</p>
+        </div>
+    </div>
+</a>
+
+    <div id="all" class = 'goods'>
+        {% for i in all %}
+        <div class="three a" style="float: left;">
+            <div class="four a" data-four = '{{i.id}}' style="
+                width: 200px;
+                height: 280px;
+                background-color: aquamarine;
+                background-image: url('{{ i.goods_photo }}');
+                background-size: 100%;
+                background-repeat: no-repeat;">
+        </div>
+            <div class="five">
+                <p style="text-align: center;size: 50px;color: skyblue" >{{ i.goods_name }} ￥{{ i.goods_price }}</p>
+                <form method="post" action="/goods_check{{ i.id }}">
+                    {% csrf_token %}
+                    <input type="submit" value="领养" name="buy">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" value="添加到领养车" name="add">
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <div id="cat" class = 'goods'>
+        {% for i in cat %}
+        <div class="three a" style="float: left;">
+            <div class="four a" data-four = '{{i.id}}' style="
+                width: 200px;
+                height: 280px;
+                background-color: aquamarine;
+                background-image: url('{{ i.goods_photo }}');
+                background-size: 100%;
+                background-repeat: no-repeat;">
+        </div>
+            <div class="five">
+                <p style="text-align: center;size: 50px;color: skyblue" >{{ i.goods_name }} ￥{{ i.goods_price }}</p>
+                <form method="post" action="/goods_check{{ i.id }}">
+                    {% csrf_token %}
+                    <input type="submit" value="领养" name="buy">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" value="添加到领养车" name="add">
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div id="dog" class = 'goods'>
+        {% for i in dog %}
+        <div class="three a" style="float: left;">
+            <div class="four a" data-four = '{{i.id}}' style="
+                width: 200px;
+                height: 280px;
+                background-color: aquamarine;
+                background-image: url('{{ i.goods_photo }}');
+                background-size: 100%;
+                background-repeat: no-repeat;">
+        </div>
+            <div class="five">
+                <p style="text-align: center;size: 50px;color: skyblue" >{{ i.goods_name }} ￥{{ i.goods_price }}</p>
+                <form method="post" action="/goods_check{{ i.id }}">
+                    {% csrf_token %}
+                    <input type="submit" value="领养" name="buy">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" value="添加到领养车" name="add">
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div id="otter" class = 'goods'>
+        {% for i in otter %}
+        <div class="three a" style="float: left;">
+            <div class="four a" data-four = '{{i.id}}' style="
+                width: 200px;
+                height: 280px;
+                background-color: aquamarine;
+                background-image: url('{{ i.goods_photo }}');
+                background-size: 100%;
+                background-repeat: no-repeat;">
+        </div>
+            <div class="five">
+                <p style="text-align: center;size: 50px;color: skyblue" >{{ i.goods_name }} ￥{{ i.goods_price }}</p>
+                <form method="post" action="/goods_check{{ i.id }}">
+                    {% csrf_token %}
+                    <input type="submit" value="领养" name="buy">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" value="添加到领养车" name="add">
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+<!--选择类型-->
+<script>
+    var div = document.querySelectorAll('.btn')
+    var goods = document.querySelectorAll('.goods')
+    for (var i = 0; i < div.length; i++) {
+        for (var j = 0; j < div.length; j++) {
+            div[j].setAttribute('data-index',j)
+        }
+        for (var j = 0; j < goods.length; j++) {
+            goods[j].style.display = 'none'
+        }
+        goods[0].style.display = 'block'
+        div[0].className = 'btn open'
+        div[i].onmouseover = function () {
+            this.style.color = 'green'
+        }
+        div[i].onmouseout = function () {
+             this.style.color = ''
+        }
+        div[i].onclick = function () {
+            var num = this.getAttribute('data-index')
+            for (var j = 0; j < div.length; j++) {
+                // div[j].style.backgroundColor = 'coral';
+                // div[j].style.border = '2px solid darkseagreen'
+                div[j].className = 'btn'
+            }
+            // this.style.backgroundColor = 'whitesmoke';
+            // this.style.borderTop = '2px solid whitesmoke'
+            // this.style.borderBottom = '2px solid whitesmoke'
+            this.className = 'btn open'
+            for (var j = 0; j < goods.length; j++) {
+                goods[j].style.display = 'none'
+            }
+            goods[num].style.display = 'block'
+        }
+    }
+</script>
+
+<!--# 显示商品详情信息页-->
+<script>
+    var four = document.querySelectorAll('.four')
+    for (let i = 0; i < four.length; i++) {
+        four[i].onclick = function () {
+            location.href = 'detailed_info'+this.getAttribute('data-four')
+        }
+    }
+</script>
+
+<!--鼠标经过事件  改变颜色-->
+<script>
+    var a = document.querySelectorAll('.a')
+    var bigDiv = document.querySelector('.three')
+    for (var i = 0; i < a.length; i++) {
+        a[i].onmouseover = function () {
+            this.style.backgroundColor = 'pink';
+        }
+        a[i].onmouseout = function () {
+            this.style.backgroundColor = ''
+        }
+    }
+</script>
+
+<!--# 页面底部显示-->
+    <div style="position: absolute;bottom: 0%;width: 100%;height: 5%;border-top: 2px royalblue dashed;text-align: center">
+        <p>制作方: 这个夏天有点热</p>
+        <p>版权没有: 这个夏天有点热</p>
+        <p>别鸟我: 3226357667@qq.com</p>
+    </div>
+{% endblock b3 %}
+{% block b4 %}
+
+<!--# 切换页面后自动刷新-->
+<!--<script>-->
+<!--    var hiddenProperty = 'hidden' in document ? 'hidden' :-->
+<!--    'webkitHidden' in document ? 'webkitHidden' :-->
+<!--    'mozHidden' in document ? 'mozHidden' :-->
+<!--    null;-->
+<!--var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');-->
+<!--var onVisibilityChange = function(){-->
+<!--    if (!document[hiddenProperty]) {-->
+<!--        window.history.go(0)-->
+<!--    }else{-->
+<!--        window.history.go(0)-->
+<!--    }-->
+<!--}-->
+<!--document.addEventListener(visibilityChangeEvent, onVisibilityChange);-->
+
+
+</script>
+    <script>
+        var acookie = document.cookie.split(';')
+        for (let i = 0; i < acookie.length; i++) {
+            a = acookie[i].split('=')
+            if (a[0] === " info"){
+                alert('领养车已存在该商品！')
+                break
+            }
+        }
+    var name = ''
+    var acookie = document.cookie.split(';')
+    for (let i = 0; i < acookie.length; i++) {
+        a = acookie[i].split('=')
+        if (a[0].trim() === "name"){
+            name = a[1]
+            break
+        }else if (i == acookie.length - 1){
+            name = '您好像还没有登录哦'
+            alert('您好像还没有登录哦')
+        }
+    }
+    </script>
+{% endblock b4 %}

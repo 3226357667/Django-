@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <style>
+        body{
+            background-color: mediumpurple;
+        }
+        .one{
+            width: 300px;
+            height: 200px;
+            margin-left:600px ;
+            margin-top: 230px;
+            background-color: orange;
+            border-radius: 10%;
+        }
+        .two{
+            margin-left: 10px;
+            padding-top: 40px;
+        }
+        .three{
+            margin-top: -40px;
+            margin-left: 120px;
+        }
+        .four{
+            margin-left: 100px;
+            margin-top: -40px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="one">
+    <div class="two">
+        <div class="three">
+            <h3 style="color: royalblue">注册</h3>
+        </div>
+        <form method="post" action="/regist_check">
+            {% csrf_token %}
+            请输入用户名：<input name = new_username value="请输入6-12位用户名" id="user" style="color: #999999;float: right;border: 0px;border-bottom: 2px solid deeppink;background-color: orange;outline: none">
+            <br>
+            <i id="five" style="color: red;display: none;font-size: 5px;float: left">账号必须在6-12位之间,并且不能含有除数字和字母以外的字符</i>
+            <br>
+            请输入密码： &nbsp;&nbsp;<input name = new_password type="text" id="pwd" value="请输入6-12位密码" style="color: #999;float: right;border: 0px;border-bottom: 2px solid saddlebrown;background-color: orange;outline: none">
+            <br>
+            <i id="six" style="color: red;display: none;font-size: 5px;float: left">密码必须在6-12位之间,并且不能含有除数字和字母以外的字符</i>
+            <br>
+            <input id="check" type="button" value="注册" name="check" style="color: aquamarine">
+            <script>
+                var input_user = document.querySelector('#user')
+                var input_pwd = document.querySelector('#pwd')
+                var check = document.querySelector('#check')
+                var five = document.querySelector('#five')
+                var six = document.querySelector('#six')
+                // 正则表达式验证账号密码是否符合要求
+                var flag = /^[0-9A-z]+$/
+                var username = false
+                var password = false
+                // 得到焦点事件
+                input_user.onfocus = function () {
+                    // 判断是否已经输入内容
+                    if (input_user.value == '请输入6-12位用户名'){
+                        input_user.value = ''
+                        input_user.style.color = 'black'
+                    }
+                }
+                // 失去焦点事件
+                input_user.onblur = function () {
+                    // 判断是否已经输入内容
+                    if (input_user.value == ''){
+                        input_user.value = '请输入6-12位用户名'
+                        input_user.style.color = '#999'
+                    }else if(input_user.value == '请输入6-12位用户名'){
+
+                    }else if (input_user.value.length <= 12 && input_user.value.length >= 6 && flag.test(input_user.value) == true){
+                        username = true
+                        five.style.display = 'none'
+                    }else{
+                        five.style.display = 'block'
+                    }
+                }
+                // 得到焦点事件
+                input_pwd.onfocus = function () {
+                    // 判断是否已经输入内容
+                    if (input_pwd.value == '请输入6-12位密码'){
+                        input_pwd.value = ''
+                        input_pwd.style.color = 'black'
+                        input_pwd.type = 'password'
+                    }
+                }
+                // 去焦点事件
+                input_pwd.onblur = function () {
+                    // 判断是否已经输入内容
+                    if (input_pwd.value == ''){
+                        input_pwd.value = '请输入6-12位密码'
+                        input_pwd.style.color = '#999'
+                        input_pwd.type = 'text'
+                    }else if(input_pwd.value == '请输入6-12位密码'){
+
+                    }else if (input_pwd.value.length <= 12 && input_pwd.value.length >= 6 && flag.test(input_pwd.value) == true){
+                        password = true
+                        six.style.display = 'none'
+                        if (username == true && password == true){
+                            check.type = 'submit'
+                            }
+                    }else{
+                        six.style.display = 'block'
+                    }
+                }
+            </script>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="index" style="text-decoration: none"><i>回到首页</i></a>
+            <br>
+            <div class="four">
+                <p style="color: red">{{ info }}</p>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

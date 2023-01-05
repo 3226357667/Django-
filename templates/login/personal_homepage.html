@@ -1,0 +1,21 @@
+{% extends 'login/models.html' %}
+{% block b2 %}个人主页{% endblock b2%}
+{% block b3 %}
+<img src="/static/image/angle.gif" style="position: absolute;">
+
+<div style="text-align: center">
+    <h1 style="color: skyblue">您好,<i style="color: lightpink"> {{ user.username }} </i>,欢迎来到个人中心</h1>
+    <h1 style="color: indianred">您在 <i style="color: orange">{{ user.create_time }}</i> 创建了此账号 </h1>
+    <h1 style="color: chartreuse">至今为止T_cat_house 已经陪伴您 <i style="color: lightpink">{{ day }}</i> 天了</h1>
+    <h1 style="color: cyan">感谢您的支持，更多功能待开发</h1>
+</div>
+<script>
+    var pic = document.querySelector('img')
+    document.addEventListener('mousemove',function (e) {
+        var x = e.pageX
+        var y = e.pageY
+        pic.style.left = x - 265 +'px'
+        pic.style.top = y - 130 + 'px'
+    })
+</script>
+{% endblock b3%}

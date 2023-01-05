@@ -1,0 +1,33 @@
+{% extends 'login/models.html' %}
+{% block b2 %}地址管理{% endblock b2%}
+    {% block b3 %}
+    {% if address.length == 0 %}
+        <a href="address" style="text-decoration: none;color: mediumvioletred"><h1>您暂时没有保存过收货地址点击此处前去保存</h1></a>
+    {% else %}
+        {% for i in address %}
+            <div style="margin-left: 30%;float: left;width: 40%;height: 20%;margin-top:1%;border: 1px solid red;border-radius: 10%;text-align: center;background-color: lightpink">
+                <form action="set_default{{ i.id }}" method="get">
+                    {% csrf_token %}
+                <p>姓名:<i>{{i.user_name}}</i></p>
+                <p>电话号码：<i>{{i.user_phone}}</i></p>
+                <p>省市县：<i>{{i.user_sheng}}  {{i.user_shi}}  {{i.user_xian}}</i></p>
+                    <span>详细地址：<i>{{i.user_deAddress}}</i></span>
+                    {% if i.user_default_address == 1%}
+                        <span style="color: red;float: right">当前默认值</span>
+                    {% else %}
+                        <input type="submit" value="设为默认" name = 'set_to_default' style="float: right;">
+                        <input type="submit" value="删除此地址" name = 'delete_address' style="float: left;">
+                    {% endif %}
+                    </form>
+
+            </div>
+        {% endfor %}
+    {% endif%}
+    <div style="margin-left: 30%;float: left;width: 40%;height: 20%;margin-top:1%;border: 1px solid red;border-radius: 10%;text-align: center;line-height: 800%">
+                <a href="address" style="color: coral;font-size: 40px"><i>添加新的收货地址</i></a>
+    </div>
+
+
+    {% block b5 %}
+    {% endblock b5 %}
+    {% endblock b3%}

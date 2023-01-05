@@ -1,0 +1,74 @@
+{% extends 'login/models.html' %}
+{% block b1 %} 查找结果 {% endblock b1 %}
+{% block b2 %} '{{ info }}'的查找结果---->一共查找到{{sum}}条记录{% endblock b2%}
+{% block b3 %}
+    {% for i in find_goods %}
+        <div class="three a" style="float: left;">
+            <div class="four a" data-four = '{{i.id}}' style="
+                width: 200px;
+                height: 280px;
+                background-color: aquamarine;
+                background-image: url('{{ i.goods_photo }}');
+                background-size: 100%;
+                background-repeat: no-repeat;">
+        </div>
+            <div class="five">
+                <p style="text-align: center;size: 50px;color: skyblue" >{{ i.goods_name }} ￥{{ i.goods_price }}</p>
+                <form method="post" action="/goods_check{{ i.id }}">
+                    {% csrf_token %}
+                    <input type="submit" value="领养" name="buy">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" value="添加到领养车" name="add">
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+
+<!--鼠标经过颜色改变-->
+<script>
+    var a = document.querySelectorAll('.a')
+    for (let i = 0; i < a.length; i++) {
+        a[i].onmouseover = function () {
+            this.style.backgroundColor = 'pink'
+        }
+        a[i].onmouseout = function () {
+            this.style.backgroundColor = ''
+        }
+    }
+</script>
+
+<!--# 显示商品详情信息页-->
+<script>
+    var four = document.querySelectorAll('.four')
+    for (let i = 0; i < four.length; i++) {
+        four[i].onclick = function () {
+            location.href = 'detailed_info'+this.getAttribute('data-four')
+        }
+    }
+</script>
+
+<div class = 'find_div' style="float: left;position: absolute;left: 670px;top: 600px">
+        {% if find_goods.has_previous %}
+            <a href="/find{{ find_goods.previous_page_number}}" >&lt;上一页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        {% else %}
+            <a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+        {% endif %}
+        {% for pindex in find_goods.paginator.page_range %}
+            {% if pindex == find_goods.number %}
+                {{ pindex }}
+            {% else %}
+                <a href="/find{{ pindex }}">{{ pindex }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if find_goods.has_next %}
+            <a href="/find{{ find_goods.next_page_number }}" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;下一页&gt;</a>
+        {% endif %}
+</div>
+<style>
+    .find_div a{
+        font-size: 20px;
+        color: deepskyblue;
+        text-decoration: none;
+    }
+</style>
+{% endblock b3%}

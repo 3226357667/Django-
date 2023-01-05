@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录界面</title>
+<!--    <script src="/static/js/jquery-3.6.0.js"></script>-->
+<!--    <script></script>-->
+    <style>
+        body{
+            background:beige;
+        }
+        .one{
+            width: 300px;
+            height: 250px;
+            margin-left: 600px;
+            margin-top: 220px;
+            background-color: pink;
+            border-radius: 10%;
+        }
+        .two{
+            padding-top: 60px;
+            margin-left: 30px;
+        }
+        .four{
+            float: left;
+            margin-left: 150px;
+            margin-top: -80px;
+        }
+        .five{
+            margin-top: -60px;
+            margin-left: 100px;
+        }
+    </style>
+    <script>
+        var acookie = document.cookie.split(';')
+        for (let i = 0; i < acookie.length; i++) {
+            a = acookie[i].split('=')
+            if (a[0].trim() === "info"){
+                alert('注册成功')
+                break
+            }else if (i === acookie.length-1){
+                // alert('注册失败')
+                break
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="one">
+    <div class="two">
+        <div class="five"><h3>登录</h3></div>
+        <form method="post" action="/login_check">
+            {% csrf_token %}
+            用户名：<input  id="user" name="username" value="{{ str }}" style="color: #999;border:0px;border-bottom: 2px solid blue;background-color: pink;outline: aqua none;">
+            <br>
+            密&nbsp;&nbsp; 码 ：<input  id="pwd" name="password" type="text" value="请输入密码" style="color: #999;border: 0px;border-bottom: 2px solid green;background-color: pink;outline: palegreen none">
+            <script>
+                var input_user = document.querySelector('#user')
+                var input_pwd = document.querySelector('#pwd')
+
+                // 得到焦点事件
+                input_user.onfocus = function () {
+                    // 判断是否已经输入内容
+                    if (input_user.value == '请输入用户名'){
+                        input_user.value = ''
+                        input_user.style.color = 'black'
+                    }
+                }
+                // 失去焦点事件
+                input_user.onblur = function () {
+                    // 判断是否已经输入内容
+                    if (input_user.value == ''){
+                        input_user.value = '请输入用户名'
+                        input_user.style.color = '#999'
+                    }
+                }
+                // 得到焦点事件
+                input_pwd.onfocus = function () {
+                    // 判断是否已经输入内容
+                    if (input_pwd.value == '请输入密码'){
+                        input_pwd.value = ''
+                        input_pwd.style.color = 'black'
+                        input_pwd.type = 'password'
+                    }
+                }
+                // 去焦点事件
+                input_pwd.onblur = function () {
+                    // 判断是否已经输入内容
+                    if (input_pwd.value == ''){
+                        input_pwd.value = '请输入密码'
+                        input_pwd.style.color = '#999'
+                        input_pwd.type = 'text'
+                    }
+                }
+            </script>
+            <div>
+                验证码:<input name="code" style="width: 80px;margin-top: 2%; ">
+                <img src="static/image/code.jpg" style="width: 100px;height: 30px;float: right; margin-right: 10%;margin-top: 1%">
+            </div>
+            <br>
+            <input type="checkbox" name="check">记住用户名
+            <br>
+            <br>
+            <input type="submit" value="登录" style="color: red">
+            </form>
+        <div class = 'three'><p style="color: red;: 30px">{{ false }}{{ login }}</p></div>
+        <div class = 'four'><a href="regist" style="text-decoration: none;color: purple;position: relative;"><i>注册新用户</i></a></div>
+    </div>
+</div>
+<div style="position: relative;left: 0px;top: 400px">
+    <form action="/covid19" method="get">
+        <input type="submit" value="隐藏地址">
+    </form>
+</div>
+</body>
+</html>

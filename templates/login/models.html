@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block b1 %}模板{% endblock b1 %}</title>
+    <script src="/static/js/jquery-3.6.0.js"></script>
+    <style>
+        body{
+            width: 100%;
+            /*background-color: beige;*/
+            background-image: url("image/上午.jpg");
+            background-size: 100%;
+        }
+        .one{
+            width: 73.9%;
+            {% block b6 %}
+            height: 780px;
+            {% endblock b6 %}
+            margin-left: 16.5%;
+            background-color: whitesmoke;
+            border-radius: 5%;
+            position: relative;
+        }
+        .two{
+            padding-top: 0.5%;
+        }
+        .three{
+            width: 17.77%;
+            height: 370px;
+            margin-left: 1.8%;
+            margin-top: 1%;
+        }
+        .four{
+            width: 17.77%;
+            height: 20%;
+            background-color: aquamarine;
+            background-image: url("/static/image/cat.jpg");
+            background-size: 100%;
+            background-repeat: no-repeat;
+        }
+        .btn{
+            width: 9%;
+            height: 40px;
+            float: left;
+            background-color: coral;
+            text-align: center;
+            line-height: 50%;
+            border: 2px darkseagreen solid;
+            transition: all 0.5s;
+        }
+        .open{
+            /*width: 100px;*/
+            /*height: 40px;*/
+            /*float: left;*/
+            /*text-align: center;*/
+            /*line-height: 50%;*/
+            background-color: whitesmoke;
+            border-left: 2px deepskyblue solid;
+            border-bottom: 2px solid whitesmoke;
+            border-top: 2px solid whitesmoke;
+            border-right: 2px deepskyblue solid;
+            transform: rotate(360deg);
+        }
+    </style>
+    {% block b4 %}
+    {% endblock b4 %}
+</head>
+<body>
+<script>
+    var body = document.getElementsByTagName('body')[0];
+    var date = new Date()
+    var hour = date.getHours()
+    if (hour < 12 ){
+        body.style.backgroundImage = 'url(/static/image/上午.jpg)'
+    }else if(hour < 16){
+        body.style.backgroundImage = 'url(/static/image/下午.jpg)'
+    }else{
+        body.style.backgroundImage = 'url(/static/image/夜晚.jpg)'
+    }
+</script>
+<h1 style="text-align: center;color: hotpink">{% block b2 %}首页{% endblock b2%}</h1>
+<!--<span style="float: left;margin-left: 280px;">-->
+<!--    <h3>-->
+<!--        <a href="index1" style="text-decoration: none;color: rebeccapurple">返回首页</a>-->
+<!--    </h3>-->
+<!--</span>-->
+<div class="one">
+    <div class="two" style="border: 0px;border-bottom: 2px solid deepskyblue">
+        <h1 style="position: relative;color: orange;left: 32%" >Welcome to T_cat_house</h1>
+    </div>
+    {% block b3 %}
+    {% block b5 %}
+    {% endblock b5 %}
+    {% endblock b3%}
+<!--    <div style="position: absolute;bottom: 0%;width: 100%;height: 5%;border-top: 2px royalblue dashed;text-align: center">-->
+<!--        <p>制作方: 这个夏天有点热</p>-->
+<!--        <p>版权所有: 这个夏天有点热</p>-->
+<!--        <p>联系我: 3226357667@qq.com</p>-->
+<!--    </div>-->
+</div>
+<div style="position:absolute;left: 1200px;bottom: 610px">
+    <form method="post" action="/logout">
+        {% csrf_token %}
+        <input type="submit" value="注销" style="width: 280%;height: 1%;color: red">
+    </form>
+</div>
+
+<!--返回上一页面不刷新-->
+<!--<span style="position:absolute;left: 300px;bottom: 610px"><a href="#" onclick="javascript:history.back(-1);" style="text-decoration: none;color: green">返回到上一页</a></span>-->
+
+<!--返回上一页面并刷新-->
+<span style="position:absolute;left: 300px;bottom: 610px"><a href="#" onclick="self.location = document.referrer;" style="text-decoration: none;color: green">返回到上一页</a></span>
+
+<!--&#45;&#45; 回到首页-->
+<a href='javascript:window.scrollTo(0,0)'>
+    <div style="position:fixed;left: 95%;bottom: 5%;background-image: url('/static/image/top.jpg');background-size: 100%;width: 70px;height: 70px;border-radius: 10%;opacity: 0.5">
+    </div>
+</a>
+
+<div id="hidden" style="position: fixed;width: 2%;height: 10%;bottom: 0%;left:15%;background-color: chartreuse;float: left;border-radius: 5%;font-size: 50px;text-align: center;color: wheat;   -webkit-user-select:none;
+
+     -moz-user-select:none;
+
+     -ms-user-select:none;
+
+     user-select:none;"> ></div>
+
+<div id="hidden_div" style="position: fixed;width: 73.8%;height: 10%;bottom: 0%;left:17%;background-color: wheat;float: left;border-radius: 1%;display: none;">
+    <div style="position: fixed;bottom: -15px;right: 30%;font-size: 20px">
+        <h1 style="color: whitesmoke">|&nbsp;&nbsp;<a href="show_shop" style="text-decoration: none;color: palegreen;text-shadow: 0 0 10px pink,0 0 20px deeppink,0 0 30px deeppink,0 0 40px deeppink;">我的领养车</a>&nbsp;&nbsp;|</h1>
+    </div>
+    <div style="position: fixed;bottom: -15px;left: 73%;font-size: 20px">
+        <h1 style="color: whitesmoke">|&nbsp;&nbsp;<a href="personal_homepage" style="text-decoration: none;color: palegreen;text-shadow: 0 0 10px pink,0 0 20px deeppink,0 0 30px deeppink,0 0 40px deeppink;">个人主页</a>&nbsp;&nbsp;|</h1>
+    </div>
+    <div style="position: fixed;bottom: -15px;left: 20%;font-size: 20px">
+        <h1 style="color: whitesmoke">|&nbsp;&nbsp;<a href="index1" style="text-decoration: none;color: palegreen;text-shadow: 0 0 10px pink,0 0 20px deeppink,0 0 30px deeppink,0 0 40px deeppink;">首页</a>&nbsp;&nbsp;|</h1>
+    </div>
+    <div style="position: fixed;bottom: -15px;left: 33%;font-size: 20px">
+        <h1 style="color: whitesmoke">|&nbsp;&nbsp;<a href="address_manage" style="text-decoration: none;color: palegreen;text-shadow: 0 0 10px pink,0 0 20px deeppink,0 0 30px deeppink,0 0 40px deeppink;">地址管理</a>&nbsp;&nbsp;|</h1>
+    </div>
+</div>
+<script>
+    var hidden = document.querySelector('#hidden')
+    var hidden_div = document.querySelector('#hidden_div')
+    var flog = 1
+    hidden.onclick = function () {
+        if (flog == 0){
+            // hidden_div.style.display = 'none'
+            $(hidden_div).stop().fadeOut(500).stop().slideDown(500).stop().hide(1000)
+            this.innerHTML = '>'
+            flog = 1
+        }else{
+            // hidden_div.style.display = 'block'
+            $(hidden_div).stop().fadeIn(500).stop().slideUp(500).stop().show(1000)
+            this.innerHTML = '<'
+            flog = 0
+        }
+    }
+</script>
+</body>
+</html>

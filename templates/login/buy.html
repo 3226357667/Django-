@@ -1,0 +1,21 @@
+{% extends 'login/models.html'%}
+{% block b1 %}
+购买
+{% endblock b1 %}
+{% block b2 %}
+购买界面
+{% endblock b2%}
+{% block b3 %}
+<h1 style="color: rebeccapurple;text-align: center;">请支付：{{cat.goods_price}}￥</h1>
+<div style="background-image: url('/static/image/sb.png');width: 400px;height: 400px;margin-left: 350px;background-size: 100%"></div>
+            <div style="margin-left: 30%;float: left;width: 40%;height: 24%;margin-top:1%;text-align: center;background-color: yellowgreen;border-radius: 10%">
+                <p style="color: red">请确认您的收货地址</p>
+                <form action="address_manage" method="get">
+                    {% csrf_token %}
+                <p>姓名:<i>{{i.user_name}}</i></p>
+                <p>电话号码：<i>{{i.user_phone}}</i></p>
+                <p>省市县：<i>{{i.user_sheng}}  {{i.user_shi}}  {{i.user_xian}}</i></p><span>详细地址：<i>{{i.user_deAddress}}</i></span>
+                <input type="submit" value="修改地址" style="float: right;color: deeppink;background-color: aquamarine;border: 1px yellow solid">
+                </form>
+            </div>
+{% endblock b3 %}

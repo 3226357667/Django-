@@ -1,0 +1,36 @@
+{% extends 'login/models.html' %}
+{% block b2 %}商品详情{% endblock b2%}
+{% block b3 %}
+<div style="width: 25%;height: 50%;background-image: url('{{ show.goods_photo }}');background-repeat: no-repeat;background-size: 100%;margin-left: 35%;margin-top: 1%">
+</div>
+<div style="background-color: aqua;opacity: 0.5;width: 80%;margin-left: 10%">
+    <p style="color: saddlebrown;font-size: 15px;text-align: center">{{ show.info }}</p>
+</div>
+<div class="five">
+    <p style="text-align: center;size: 50px;color: skyblue" >{{ show.goods_name }} ￥{{ show.goods_price }}</p>
+    <form method="post" action="/goods_check{{ show.id }}" style="text-align: center">
+        {% csrf_token %}
+          <input class = 'input1' type="submit" value="领养" name="buy" style="width: 10%;height: 3%;background-color: deeppink">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input class = 'input2' type="submit" value="添加到领养车" name="add" style="background-color: aqua">
+    </form>
+</div>
+
+<script>
+    var input1 = document.querySelector('.input1')
+    var input2 = document.querySelector('.input2')
+    input1.onmouseover = function () {
+        this.style.backgroundColor = 'green'
+    }
+    input1.onmouseout = function () {
+        this.style.backgroundColor = 'deeppink'
+    }
+    input2.onmouseover = function () {
+        this.style.backgroundColor = 'yellow'
+    }
+    input2.onmouseout = function () {
+        this.style.backgroundColor = 'aqua'
+    }
+
+</script>
+{% endblock b3%}

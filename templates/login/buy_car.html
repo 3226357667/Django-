@@ -1,0 +1,155 @@
+{% extends 'login/models.html'%}
+{% block b6 %}
+height:{{ height }}px;
+{% endblock b6 %}
+{% block b1 %}
+购物车
+{% endblock b1 %}
+{% block b2 %}
+购物车
+{% endblock b2 %}
+{% block b3 %}
+{% for i in all_shop %}
+    <div class="three a" style="float: left">
+        <div class="four a" style="
+            width: 200px;
+            height: 280px;
+            background-color: aquamarine;
+            background-image: url('{{ i.goods_photo }}');
+            background-size: 100%;
+            background-repeat: no-repeat;">
+    </div>
+        <input class='get_price' type="checkbox" value="{{ i.goods_price }}" checked="true" style="float: left;">
+        <input class = 'add' type="button" value="+" style="float: right"><input class = 'buy_num' type="text" value="1" disabled="true" style="width: 7%;text-align: center;float: right"><input class = 'cut' type="button" value="-" style="float: right">
+        <div class="five">
+            <p style="text-align: center;size: 50px;color: skyblue;margin-top: 13%" >{{ i.goods_name }} ￥<i class="single_price">{{ i.goods_price }}</i></p>
+            <form method="post" action="/goods_check{{ i.id }}">
+                {% csrf_token %}
+                <input type="submit" value="领养" name="buy">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </form>
+            {% block b5 %}
+            <span>
+                <form method="post" action="/delete_goods{{i.id}}" style="float: left;margin-left: 110px;margin-top: -25px">
+                    {% csrf_token %}
+                    <input style="" type="submit" value="移出领养车">
+                </form>
+            </span>
+            {% endblock b5 %}
+        </div>
+    </div>
+{% endfor %}
+
+
+<script>
+    var div = document.querySelectorAll('.a')
+    for (var i = 0; i < div.length; i++) {
+        div[i].onmouseover = function () {
+            this.style.backgroundColor = 'pink';
+        }
+        div[i].onmouseout = function () {
+            this.style.backgroundColor = ''
+        }
+    }
+</script>
+
+<div style="float: right;position:fixed;bottom: 50px;left: 1170px">
+    <form class = 'form' method="post" action="/shopping{{ sum }}">
+        {% csrf_token %}
+        <h1 style="color: coral">总计<i class="all_price">{{ sum }}</i>￥</h1>
+        <input class = 'pay' type="button" value="结账" style="width: 200px;height: 30px;background-color: pink;color: brown">
+    </form>
+</div>
+
+
+<!-- 按钮加减商品数量   耗时1个小时>-->
+<script>
+    $(function () {
+        $('.get_price').click(function () {
+            var old_price = $('.all_price').text()
+            this_num = $(this).siblings('.buy_num').val()
+            this_single = $(this).siblings('.five').children().find('.single_price').text()
+            if(!$(this).prop('checked')){
+                cut_price = (parseInt(this_num))*parseInt(this_single)
+                $('.all_price').text(parseInt(old_price) - cut_price + parseInt(this_single))
+                $(this).siblings('.buy_num').val(0)
+            }else{
+                $(this).siblings('.buy_num').val(1)
+
+            }
+        })
+
+        $('.add').click(function () {
+            var old_num = $(this).siblings('.buy_num').val()
+            var old_price = $('.all_price').text()
+            $(this).siblings('.get_price').prop('checked','true')
+            old_num++
+            $(this).siblings('.buy_num').val(old_num)
+            var single_price = $(this).siblings('.five').children().find('.single_price').text()
+            $('.all_price').text(parseInt(old_price)+parseInt(single_price))
+        })
+        $('.cut').click(function () {
+            var old_num = $(this).siblings('.buy_num').val()
+            var old_price = $('.all_price').text()
+            if(old_num == 1){
+                return false
+            }
+            old_num--
+            $(this).siblings('.buy_num').val(old_num)
+            var single_price = $(this).siblings('.five').children().find('.single_price').text()
+            $('.all_price').text(parseInt(old_price)-parseInt(single_price))
+        })
+    })
+</script>
+
+
+
+<script>
+    var get_price = document.querySelectorAll('.get_price')
+    var all_price = document.querySelector('.all_price')
+    var pay = document.querySelector('.pay')
+    var form = document.querySelector('.form')
+    $(function () {
+        $('.pay').click(function () {
+            if(all_price.innerText == 0){
+                alert('您暂未选择任何商品！')
+            }else{
+                all_money = $('.all_price').text()
+                $('.form').prop('action','/shopping'+all_money)
+                this.type = 'submit'
+            }
+        })
+    })
+
+
+
+    for (let i = 0; i < get_price.length; i++) {
+        get_price[i].onclick = function () {
+            console.log(this.checked)
+            if (this.checked == true){
+                all_price.innerHTML = parseInt(all_price.innerText) + parseInt(this.value)
+            }else{
+                all_price.innerHTML = parseInt(all_price.innerText) - parseInt(this.value)
+            }
+            if (parseInt(all_price.innerText) == 0) {
+                pay.type = 'button'
+                // pay.onclick = function (){
+                //     if (parseInt(all_price.innerText) == 0){
+                //         alert('您没有选择任何商品！')
+                //     }else{
+                //         location.reload()
+                //     }
+                // }
+            }else{
+                form.action = '/shopping'+all_price.innerHTML
+                pay.type = 'submit'
+            }
+        }
+    }
+</script>
+{% endblock b3 %}
+{% block b4 %}
+<!--<script>-->
+<!--    location.reload()-->
+<!--</script>-->
+{% endblock b4 %}

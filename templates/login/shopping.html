@@ -1,0 +1,15 @@
+{% extends 'login/buy.html' %}
+{% block b3 %}
+<h1 style="color: rebeccapurple;text-align: center;">请支付：{{ sum }}￥</h1>
+<div style="background-image: url('/static/image/sb.png');width: 400px;height: 400px;margin-left: 350px;background-size: 100%"></div>
+            <div style="margin-left: 30%;float: left;width: 40%;height: 20%;margin-top:1%;text-align: center">
+                <p style="color: red">请确认您的收货地址</p>
+                <form action="address_manage" method="get">
+                    {% csrf_token %}
+                <p>姓名:<i>{{i.user_name}}</i></p>
+                <p>电话号码：<i>{{i.user_phone}}</i></p>
+                <p>省市县：<i>{{i.user_sheng}}  {{i.user_shi}}  {{i.user_xian}}</i></p><span>详细地址：<i>{{i.user_deAddress}}</i></span>
+                <input type="submit" value="修改地址" style="float: right">
+                </form>
+            </div>
+{% endblock %}
